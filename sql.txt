@@ -1,0 +1,36 @@
+№1 
+Задание:
+
+Представь: тебе нужно проверить, отображается ли созданный заказ в базе данных.
+Для этого: выведи список логинов курьеров с количеством их заказов в статусе «В доставке» 
+(поле inDelivery = true). 
+
+Решение:
+
+SELECT C.login AS "CourierLogin", COUNT(O.id) AS "InDeliveryOrdersCount"
+FROM Couriers C
+LEFT JOIN Orders O ON C.id = O.courierId
+WHERE O.inDelivery = true
+GROUP BY C.login;
+
+№2 
+Задание:
+
+Ты тестируешь статусы заказов. Нужно убедиться, что в базе данных они записываются корректно.
+Для этого: выведи все трекеры заказов и их статусы. 
+Статусы определяются по следующему правилу:
+Если поле finished == true, то вывести статус 2.
+Если поле canсelled == true, то вывести статус -1.
+Если поле inDelivery == true, то вывести статус 1.
+Для остальных случаев вывести 0.
+
+Решение:
+SELECT O.track AS "OrderTracker",
+       CASE
+           WHEN O.finished = true THEN 2
+           WHEN O.cancelled = true THEN -1
+           WHEN O.inDelivery = true THEN 1
+           ELSE 0
+       END AS "OrderStatus"
+FROM Orders O;
+
